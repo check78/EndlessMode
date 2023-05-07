@@ -141,8 +141,6 @@ Light2.Name = "DaLight"
 local entityModel = Modl
 local mommy = entityModel.PrimaryPart
 entityModel.PrimaryPart.CFrame = workspace.CurrentRooms[game.ReplicatedStorage.GameData.LatestRoom.Value].RoomExit.CFrame
-local griddy = game.TweenService:Create(entityModel.PrimaryPart,TweenInfo.new(105),{CFrame = workspace.CurrentRooms[game.ReplicatedStorage.GameData.LatestRoom.Value].RoomEntrance.CFrame})
-griddy:Play()
 local spawn = Instance.new("Sound")
 spawn.Parent = entityModel.PrimaryPart
 spawn.Name = "ReboundSpawn"
