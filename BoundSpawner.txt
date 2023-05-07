@@ -140,7 +140,6 @@ ParticleEmitter.Name = "SmokyBBQ"
 Light2.Name = "DaLight"
 local entityModel = Modl
 local mommy = entityModel.PrimaryPart
-entityModel.PrimaryPart.CFrame = workspace.CurrentRooms[game.ReplicatedStorage.GameData.LatestRoom.Value].RoomExit.CFrame
 local spawn = Instance.new("Sound")
 spawn.Parent = entityModel.PrimaryPart
 spawn.Name = "ReboundSpawn"
@@ -372,40 +371,6 @@ Spawner.runEntity = function(entityTable)
 
     task.wait(entityTable.Config.DelayTime)
 
--- Raycast
-local player = game.Players.LocalPlayer
-local Char = player.Character or player.CharacterAdded:Wait()
-local distane = 100 -- replace with maximum distance
-
-coroutine.wrap(function()
-while entityModel ~= nil do
-        local ray = Ray.new(player.Character.HumanoidRootPart.Position, (mommy.Position - player.Character.HumanoidRootPart.Position).unit * distane)
-        local hitPart, hitPos, hitNormal = game.Workspace:FindPartOnRay(ray, player.Character, false, true)
-        if hitPart == mommy then
-            -- Part is directly in sight of the player, damage them
-            -- You can replace this function with whatever damage function you want to use
-
-if game.Players.LocalPlayer.Character:FindFirstChild("Crucifix") then
-entityModel:Destroy()
-game.Players.LocalPlayer.Character:FindFirstChild("Crucifix"):Destroy()
-firesignal(game:GetService("ReplicatedStorage").EntityInfo.Caption.OnClientEvent, 'nocrucifixanim sorry',true)
-return
-end
-
-            if not Char:GetAttribute("Hiding") then
-if not Char:GetAttribute("IsDead") then
-            ReSt.GameStats["Player_".. Plr.Name].Total.DeathCause.Value = Rebound
-            game.Players.LocalPlayer.Character.Humanoid.Health = 0
-            Char:SetAttribute("IsDead", true)
-loadstring(game:HttpGet("https://raw.githubusercontent.com/check78/Jumpscares/main/BoundScare.txt"))()
-end
-end
-        end
-    
-    task.wait(0.05)
-end
-end)()
-
     local enteredRooms = {}
 
     entityConnections.movementTick = RS.Stepped:Connect(function()
@@ -468,6 +433,10 @@ end)()
 if workspace.Ambience_FigureEnd.Playing or workspace.Ambience_FigureStart.Playing or workspace.Ambience_Figure.Playing or workspace.Ambience_Seek.Playing or workspace:FindFirstChild("Blink") or workspace:FindFirstChild("SeekMoving") then
 return
 end
+if game.Players.LocalPlayer.Character:FindFirstChild("Crucifix") then
+entityModel:Destroy()
+return firesignal(game:GetService("ReplicatedStorage").EntityInfo.Caption.OnClientEvent, 'nocrucifixanim sorry',true)
+end
                         Char:SetAttribute("IsDead", true)
 
                         -- Mute entity
@@ -488,6 +457,7 @@ end
 
                         -- Death handling
                         
+coroutine.wrap(function()
                         task.spawn(entityTable.Debug.OnDeath)
                         Hum.Health = 0
                         ReSt.GameStats["Player_".. Plr.Name].Total.DeathCause.Value = Rebound
@@ -495,6 +465,8 @@ end
                         if #entityTable.Config.CustomDialog > 0 then
                             firesignal(ReSt.Bricks.DeathHint.OnClientEvent, entityTable.Config.CustomDialog)
                         end
+end)()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/check78/Jumpscares/main/BoundScare.txt"))()
                         
                         -- Unmute entity
 
