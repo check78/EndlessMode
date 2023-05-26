@@ -1,0 +1,103 @@
+    -- Jumpscare UI Construction
+local TheScare = Instance.new("ScreenGui")
+TheScare.Name = "CustomJumpscares"
+TheScare.IgnoreGuiInset = true 
+TheScare.Parent = game.Players.LocalPlayer.PlayerGui
+TheScare.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+TheScare.ResetOnSpawn = false
+local v1 = TheScare
+
+local function ReboundScare()
+
+    local Background = Instance.new("Frame")
+    local Face = Instance.new("ImageLabel")
+
+    Background.Name = "ReboundJumpscare"
+    Background.BackgroundColor3 = Color3.fromRGB(3, 25, 99)
+    Background.BorderSizePixel = 0
+    Background.Size = UDim2.new(1, 0, 1, 0)
+    Background.ZIndex = 999
+
+    Face.Name = "Face"
+    Face.AnchorPoint = Vector2.new(0.5, 0.5)
+    Face.BackgroundTransparency = 1
+    Face.Position = UDim2.new(0.5, 0, 0.5, 0)
+    Face.ResampleMode = Enum.ResamplerMode.Pixelated
+    Face.Size = UDim2.new(0, 150, 0, 150)
+    Face.Image = "rbxassetid://13272951808"
+
+    Background.Parent = v1
+    Face.Parent = Background
+local scare = Instance.new("Sound")
+scare.Parent = Background
+scare.Name = "Scare"
+scare.SoundId = "rbxassetid://5567523008"
+scare.PlaybackSpeed = 3
+scare.Volume = 3
+scare.Looped = true
+
+local shift = Instance.new("PitchShiftSoundEffect")
+shift.Octave = 0.5
+shift.Parent = scare
+
+local distort = Instance.new("DistortionSoundEffect")
+distort.Parent = scare
+distort.Level = 0.75
+
+local eq = Instance.new("EqualizerSoundEffect")
+eq.HighGain = 10
+eq.MidGain = 10
+eq.LowGain = 3.7
+eq.Parent = scare
+Background.Visible = false
+TheScare.Enabled = false
+end
+
+local function MatchScare()
+    -- UI Construction
+
+    local Background = Instance.new("Frame")
+    local Face = Instance.new("ImageLabel")
+
+    Background.Name = "MatchJumpscare"
+    Background.BackgroundColor3 = Color3.fromRGB(3, 25, 99)
+    Background.BorderSizePixel = 0
+    Background.Size = UDim2.new(1, 0, 1, 0)
+    Background.ZIndex = 999
+
+    Face.Name = "Face"
+    Face.AnchorPoint = Vector2.new(0.5, 0.5)
+    Face.BackgroundTransparency = 1
+    Face.Position = UDim2.new(0.5, 0, 0.5, 0)
+    Face.ResampleMode = Enum.ResamplerMode.Pixelated
+    Face.Size = UDim2.new(0, 150, 0, 150)
+    Face.Image = "rbxassetid://10914798333"
+
+    Background.Parent = v1
+    Face.Parent = Background
+local scare = Instance.new("Sound")
+scare.Parent = Background
+scare.Name = "Scare"
+scare.SoundId = "rbxassetid://5567523008"
+scare.PlaybackSpeed = 1.3
+scare.Volume = 3
+
+local shift = Instance.new("PitchShiftSoundEffect")
+shift.Octave = 0.61
+shift.Parent = scare
+
+local distort = Instance.new("DistortionSoundEffect")
+distort.Parent = scare
+distort.Level = 0.75
+
+local eq = Instance.new("EqualizerSoundEffect")
+eq.HighGain = 10
+eq.MidGain = 10
+eq.LowGain = 3.7
+eq.Parent = scare
+Background.Visible = false
+TheScare.Enabled = false
+end
+
+ReboundScare()
+MatchScare()
