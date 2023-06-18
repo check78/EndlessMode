@@ -293,6 +293,24 @@ entity:Destroy()
                                 end
                             end
 
+local arrival = Instance.new("Sound")
+arrival.Parent = part
+arrival.Name = "crucify"
+arrival.SoundId = Git("https://github.com/check78/EndlessMode/blob/main/Rebound's%20Arrival.mp3?raw=true","ReboundArrival")
+arrival.Volume = 1
+arrival.Pitch = 1.5
+local eq = Instance.new("EqualizerSoundEffect")
+eq.HighGain = 10
+eq.MidGain = 10
+eq.LowGain = 10
+eq.Parent = arrival
+arrival.Looped = false
+arrival.RollOffMaxDistance = 60
+arrival.RollOffMinDistance = 1
+arrival.RollOffMode = Enum.RollOffMode.InverseTapered
+arrival.PlayOnRemove = true
+arrival:Destroy()
+
 local zamn = Vector3.new(0,0,-10)
 
 local ambatukam = part.CFrame*CFrame.new(zamn)
