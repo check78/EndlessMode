@@ -304,6 +304,104 @@ function loadSound(soundData)
     return sound
 end
 
+local function Crucifix(entity)
+-- Get the part to animate
+
+local CrucifixTool = game.Players.LocalPlayer.Character:FindFirstChild("Crucifix")
+local model = Instance.new("Model")
+model.Parent = workspace
+model.Name = "Thx"
+local Handle = CrucifixTool.Handle:Clone()
+Handle.Parent = model
+Handle.Anchored = true
+Handle.Glow.Anchored = true 
+Handle.Sound:Play()
+CrucifixTool:Destroy()
+Handle.Transparency = 1
+Handle.Glow.Transparency = 0
+Handle.Glow.Light.Enabled = true
+local Chains = game:GetObjects("rbxassetid://12537077765")[1]
+Chains.Parent = workspace
+
+local ent = entity:Clone()
+ent.Parent = workspace
+local part = ent.PrimaryPart
+entity:Destroy()
+
+                            for _, v in next, ent:GetDescendants() do
+                                if v.ClassName == "Sound" then
+                                    game:GetService("TweenService"):Create(v, TweenInfo.new(0.5), {Volume = 0}):Play()
+                                    game:GetService("TweenService"):Create(v, TweenInfo.new(0.5), {Pitch = 0}):Play()
+                                end
+                            end
+
+                            for _, v in next, ent:GetDescendants() do
+                                if v.ClassName == "PointLight" then
+                                    game:GetService("TweenService"):Create(v, TweenInfo.new(3.5), {Range = 0}):Play()
+                                    game:GetService("TweenService"):Create(v, TweenInfo.new(5.5), {Brightness = 0}):Play()
+                                end
+                            end
+
+local zamn = Vector3.new(0,0,-10)
+
+local ambatukam = part.CFrame*CFrame.new(zamn)
+Chains:PivotTo(part.CFrame - Vector3.new(0,3,0))
+coroutine.wrap(function()
+while Chains ~= nil do
+Chains.Entity.CFrame = part.CFrame
+task.wait(0.0001)
+end
+end)()
+
+--Handle.CFrame = ambatukam
+--Handle.Glow.CFrame = ambatukam
+
+Handle.CFrame = Handle.CFrame:Lerp(ambatukam, 1.8)
+Handle.Glow.CFrame = Handle.Glow.CFrame:Lerp(ambatukam, 1.8)
+
+game:GetService("TweenService"):Create(Handle, TweenInfo.new(0.8), {CFrame = ambatukam}):Play()
+game:GetService("TweenService"):Create(Handle.Glow, TweenInfo.new(0.8), {CFrame = ambatukam}):Play()
+
+game:GetService("TweenService"):Create(Handle, TweenInfo.new(0.8), {CFrame = CFrame.lookAt(Handle.Position, part.Position)}):Play()
+game:GetService("TweenService"):Create(Handle.Glow, TweenInfo.new(0.8), {CFrame = CFrame.lookAt(Handle.Position, part.Position)}):Play()
+
+game:GetService("TweenService"):Create(part, TweenInfo.new(5), {Position = part.Position + Vector3.new(0, 0.1, 0)}):Play()
+                            for _, v in next, Chains:GetDescendants() do
+                                if v.ClassName == "PointLight" then
+                                    game:GetService("TweenService"):Create(v, TweenInfo.new(3.5), {Range = 5.0}):Play()
+                                    game:GetService("TweenService"):Create(v, TweenInfo.new(1.5), {Brightness = 2}):Play()
+                                end
+                            end
+task.wait(3)
+game:GetService("TweenService"):Create(Handle.Glow.Light, TweenInfo.new(5.5), {Brightness = 5}):Play()
+                            for _, v in next, Chains:GetDescendants() do
+                                if v.ClassName == "PointLight" then
+                                    game:GetService("TweenService"):Create(v, TweenInfo.new(0.95), {Range = 15}):Play()
+                                    game:GetService("TweenService"):Create(v, TweenInfo.new(0.95), {Brightness = 7.50}):Play()
+                                end
+                            end
+
+-- Move the part up and down
+game:GetService("TweenService"):Create(part, TweenInfo.new(1), {Position = part.Position + Vector3.new(0, 5, 0)}):Play()
+task.wait(0.7)
+                            for _, v in next, Chains:GetDescendants() do
+                                if v.ClassName == "PointLight" then
+                                    game:GetService("TweenService"):Create(v, TweenInfo.new(5.5), {Range = 0}):Play()
+                                    game:GetService("TweenService"):Create(v, TweenInfo.new(5.5), {Brightness = 0}):Play()
+                                end
+                            end
+game:GetService("TweenService"):Create(part, TweenInfo.new(16), {Position = part.Position - Vector3.new(0, 125, 0)}):Play()
+task.wait(2.5)
+game:GetService("TweenService"):Create(Handle.Glow, TweenInfo.new(0.75), {Transparency = 1}):Play()
+game:GetService("TweenService"):Create(Handle.Glow, TweenInfo.new(0.75), {Size = Handle.Glow.Size * 4}):Play()
+Handle.Glow.ExplodeParticle:Emit(70)
+game:GetService("TweenService"):Create(Handle.Glow.Light, TweenInfo.new(1.5), {Brightness = 0}):Play()
+task.wait(5)
+ent:Destroy()
+Chains:Destroy()
+model:Destroy()
+end
+
 -- Functions
 
 Spawner.createEntity = function(config)
@@ -462,9 +560,7 @@ if workspace.Ambience_FigureEnd.Playing or workspace.Ambience_FigureStart.Playin
 return
 end
 if game.Players.LocalPlayer.Character:FindFirstChild("Crucifix") then
-game.Players.LocalPlayer.Character:FindFirstChild("Crucifix"):Destroy()
-entityModel:Destroy()
-return firesignal(game:GetService("ReplicatedStorage").EntityInfo.Caption.OnClientEvent, 'nocrucifixanim sorry',true)
+return Crucifix(entityModel)
 end
                         Char:SetAttribute("IsDead", true)
 
@@ -514,8 +610,10 @@ end)()
 
 coroutine.wrap(function()
 while entityModel ~= nil do
+local part = entityModel.PrimaryPart.Position
 wait(10)
-if entityModel.PrimaryPart.Velocity == Vector3.new(0,0,0) then
+local initialPosition = entityModel.PrimaryPart.Position
+if not (part - initialPosition).Magnitude > 0.4 then
 entityModel:Destroy()
 end
 end
