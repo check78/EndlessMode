@@ -409,6 +409,7 @@ Spawner.createEntity = function(config)
                     OnEntityFinishedRebound = function() end,
                     OnEntityEnteredRoom = function() end,
                     OnLookAtEntity = function() end,
+                    OnEntityCrucifixed = function() end,
                     OnDeath = function() end
                 }
             }
@@ -530,6 +531,7 @@ if workspace.Ambience_FigureEnd.Playing or workspace.Ambience_FigureStart.Playin
 return
 end
 if game.Players.LocalPlayer.Character:FindFirstChild("Crucifix") then
+task.spawn(entityTable.Debug.OnEntityCrucifixed)
 return Crucifix(entityModel)
 end
                         Char:SetAttribute("IsDead", true)
